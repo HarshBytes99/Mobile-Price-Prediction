@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %} contact {% endblock title %}
+
+{% block body %}
+<style>
+    
+    footer {
+        padding: 20px;
+        text-align: center;
+    }
+    /* Contact Section */
+    .contact-hero {
+        width: 100%;
+        height: 100vh;
+        background-image: url('/static/contact\ image.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .contact-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+    }
+
+    .contact-content h1 {
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        color: #ff6b6b;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    .contact-content p {
+        font-size: 1.2em;
+        margin-bottom: 40px;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.173);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-form input, .contact-form textarea {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+
+    .contact-form input[type="submit"] {
+        background-color: #ff9a9e;
+        color: #343a40;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 2px 4px 10px rgba(255, 154, 158, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .contact-form input[type="submit"]:hover {
+        background-color: #fff;
+        color: #ff9a9e;
+        box-shadow: 0px 0px 15px rgba(255, 154, 158, 0.5);
+    }
+</style>
+<!-- Contact Section -->
+<section class="contact-hero">
+    <div class="contact-content">
+        <h1>Contact Us</h1>
+        <p>We are here to help you with your mobile price predicts.</p>
+        <div class="contact-form">
+            <form action="/contact" method="post">   
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="Email" placeholder="Your Email" required>
+                <textarea  placeholder="Your Message" rows="6" required></textarea>
+                <input type="submit" value="Send Message">
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock body %}

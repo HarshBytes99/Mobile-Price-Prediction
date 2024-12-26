@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% block title %} prediction {% endblock title %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Price Prediction</title>
+    <style>
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      font-family: 'Arial', sans-serif;
+      height: 100%;
+      width: 100%;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    
+    header {
+      width: 100%;
+      padding: 0px;
+      text-align: center;
+    }
+
+    footer {
+      padding: 20px;
+    }
+
+    
+    .welcome-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('/static/mpfront.webp') no-repeat center center/cover;
+      position: relative;
+    }
+
+    .welcome-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(24, 23, 23, 0.342);
+      z-index: 1;
+    }
+
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #333;
+            padding: 40px 60px;
+            border-radius: 15px;
+            background: rgba(195, 200, 201, 0.8);
+            backdrop-filter: blur(4px);
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
+            height: min-content;
+            
+            
+            
+        }
+
+        /* Title Animation */
+    @keyframes titleAnimation {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #ff6b6b;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        animation: titleAnimation 2s ease forwards;
+        opacity: 0;
+    }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .form-column {
+            flex: 1 1 45%;
+            min-width: 200px;
+            
+            
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+    input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #ffffff;
+            transition: all 0.3s ease; /* Smooth transitions for hover and focus */
+        }
+
+        input:hover, select:hover {
+            border-color: #ff6b6b; /* Add a soft border color change on hover */
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Soft pastel gradient */
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.647); /* Add a soft glow effect */
+        }
+
+
+        input:focus, select:focus {
+            border-color: #ff6b6b;
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.5); /* More pronounced focus effect */
+            background-color: #fffdfd; /* Slightly lighter background when focused */
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 15px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff9a9e;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            opacity: 100;
+            transition: opacity 0.5s ease;
+        }
+
+        #result.show {
+            opacity: 1;
+        }
+
+        .success { color: #010101; }
+        .error { color: #f94e4e; }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+    <div class="container">
+        <h1>Mobile Price Prediction</h1>
+        <form id="predictionForm">
+            <div class="form-row">
+                <!-- Add form inputs here as per your original file -->
+                <!-- Example -->
+                <div class="form-column">
+                    <label for="Rating">Rating(0-5):</label>
+                    <input type="number" id="Rating" name="Rating"  required min="0" max="5">
+
+                    <label for="company">Company:</label>
+                    <select id="company" name="company">
+                        <option value="19">Samsung</option>
+                        <option value="22">Vivo</option>
+                        <option value="18">Realme</option>
+                        <option value="13">OPPO</option>
+                        <option value="14">OnePlus</option>
+                        <option value="17">Poco</option>
+                        <option value="23">Xiaomi</option>
+                        <option value="21">Tecno</option>
+                        <option value="9">Lava</option>
+                        <option value="11">Motorola</option>
+                        <option value="12">Nothing</option>
+                        <option value="24">IQOO</option>
+                        <option value="3">Google</option>
+                        <option value="8">LG</option>
+                        <option value="4">Honor</option>
+                        <option value="25">Itel</option>
+                        <option value="5">Huawei</option>
+                        <option value="2">Gionee</option>
+                    </select>
+
+                    <label for="No_of_sim">Number of SIMs:</label>
+                    <select id="No_of_sim" name="No_of_sim">
+                        <option value="0">Dual SIM</option>
+                        <option value="1">Single SIM</option>
+                    </select>
+                    <label for="Ram">RAM (in GB):</label>
+                    <input type="number" id="Ram" name="Ram"  required>
+
+                    <label for="5g_mobile">5G Mobile:</label>
+                    <select id="5g_mobile" name="5g_mobile">
+                        <option value="1">5g</option>
+                        <option value="2">Volte</option>
+                    </select>
+
+                    <label for="Battery">Battery Capacity (mAh):</label>
+                    <input type="number" id="Battery" name="Battery" required>
+
+                    <label for="Display">Display Size (inches):</label>
+                    <input type="number" step="0.1" id="Display" name="Display" required>
+                </div>
+
+                <div class="form-column">
+                    <label for="Fc">Front Camera (MP):</label>
+                    <input type="number" id="Fc" name="Fc" required>
+
+                    <label for="Rc">Rear Camera (MP):</label>
+                    <input type="number" id="Rc" name="Rc" required>
+
+                    <label for="External_memory">External Memory (in GB):</label>
+                    <input type="number" id="External_memory" name="External_memory" required>
+
+                    <label for="Android_version">Android Version:</label>
+                    <input type="number" step="0.1" id="Android_version" name="Android_version" required>
+
+                    <label for="Inbuilt_memory">Inbuilt Memory (GB):</label>
+                    <input type="number" id="Inbuilt_memory" name="Inbuilt_memory" required>
+
+                    <label for="fast_charging">Fast Charging (in Watt):</label>
+                    <input type="number" id="fast_charging" name="fast_charging" required>
+
+                    <label for="Processor">Processor:</label>
+                    <select id="Processor" name="Processor">
+                        <option value="12">Octa Core Processor</option>
+                        <option value="10">Nine Core Processor</option>
+                        <option value="7">Deca Core Processor</option>
+                        <option value="13">Quad Core Processor</option>
+                        <option value="5">2.3 GHz Processor</option>
+                        <option value="4">2 GHz Processor</option>
+                        <option value="2">1.8 GHz Processor</option>
+                        <option value="1">1.6 GHz Processor</option>
+                        <option value="0">1.3 GHz Processor</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" onclick="makePrediction()">Predict Price</button>
+        </form>
+        <h2 id="result"></h2>
+    </div>
+</div>
+    <script>
+        async function makePrediction() {
+            const form = document.getElementById('predictionForm');
+            const resultElement = document.getElementById('result');
+            const formData = new FormData(form);
+
+            let allFilled = true;
+
+            formData.forEach((value) => {
+                if (value === "") {
+                    allFilled = false;
+                }
+            });
+
+
+            const rating = Number(formData.get('Rating'));
+            if (rating < 0 || rating > 5) {
+                resultElement.innerText = 'Rating must be between 0 and 5.';
+                resultElement.classList.add('error', 'show');
+                return;
+            }
+
+            if (!allFilled) {
+                resultElement.innerText = 'Please fill in all fields before predicting the price.';
+                resultElement.classList.add('error', 'show');
+                return;
+            }
+
+            resultElement.textContent = 'Loading...';
+            resultElement.className = 'loading show';
+
+            const data = {};
+            formData.forEach((value, key) => data[key] = Number(value));
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                resultElement.className = 'show';
+                if (response.ok) {
+                    resultElement.textContent = `Predicted Price: INR ${result.predicted_price.toFixed(2)}`;
+                    resultElement.classList.add('success');
+                } else {
+                    resultElement.textContent = `Error: ${result.error}`;
+                    resultElement.classList.add('error');
+                }
+            } catch (error) {
+                resultElement.textContent = 'Error: Could not reach the server.';
+                resultElement.classList.add('error');
+            }
+        }
+    </script>
+</body>
+</html>
+{% endblock body %}
