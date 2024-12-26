@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Price Prediction</title>
+</head>
+<body>
+    <h1>Mobile Price Prediction</h1>
+    <form id="predictionForm">
+        <label for="Rating">Rating:</label>
+        <input type="number" id="Rating" name="Rating" required><br>
+
+        <label for="No_of_sim">Number of SIMs:</label>
+        <input type="number" id="No_of_sim" name="No_of_sim" required><br>
+
+        <label for="Ram">RAM (in GB):</label>
+        <input type="number" id="Ram" name="Ram" required><br>
+
+        <label for="5g_mobile">5G Mobile (1 for Yes, 0 for No):</label>
+        <input type="number" id="5g_mobile" name="5g_mobile" required><br>
+
+        <label for="Battery">Battery Capacity (mAh):</label>
+        <input type="number" id="Battery" name="Battery" required><br>
+
+        <label for="Display">Display Size (inches):</label>
+        <input type="number" step="0.1" id="Display" name="Display" required><br>
+
+        <label for="Rc">Rear Camera (MP):</label>
+        <input type="number" id="Rc" name="Rc" required><br>
+
+        <label for="Fc">Front Camera (MP):</label>
+        <input type="number" id="Fc" name="Fc" required><br>
+
+        <label for="External_memory">External Memory (in GB):</label>
+        <input type="number" id="External_memory" name="External_memory" required><br>
+
+        <label for="Android_version">Android Version:</label>
+        <input type="number" step="0.1" id="Android_version" name="Android_version" required><br>
+
+        <label for="company">Company:</label>
+        <input type="number" id="company" name="company" required><br>
+
+        <label for="Inbuilt_memory">Inbuilt Memory (GB):</label>
+        <input type="number" id="Inbuilt_memory" name="Inbuilt_memory" required><br>
+
+        <label for="fast_charging">Fast Charging (1 for Yes, 0 for No):</label>
+        <input type="number" id="fast_charging" name="fast_charging" required><br>
+
+        <label for="Processor">Processor:</label>
+        <input type="number" id="Processor" name="Processor" required><br>
+
+        <button type="button" onclick="makePrediction()">Predict Price</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+    <script>
+        async function makePrediction() {
+            const formData = new FormData(document.getElementById('predictionForm'));
+            const data = {};
+            formData.forEach((value, key) => data[key] = Number(value));
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById('result').innerText = `Predicted Price: INR.${result.predicted_price.toFixed(2)}`;
+                } else {
+                    document.getElementById('result').innerText = `Error: ${result.error}`;
+                }
+            } catch (error) {
+                document.getElementById('result').innerText = 'Error: Could not reach the server.';
+            }
+        }
+    </script>
+</body>
+</html>
